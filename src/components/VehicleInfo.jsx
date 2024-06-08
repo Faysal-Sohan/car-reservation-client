@@ -1,14 +1,28 @@
-import { useForm } from "react-hook-form";
 import SectionTitle from "./shared/SectionTitle";
+import useCar from "../hooks/useCar";
+import { useState } from "react";
 
 
-function VehicleInfo() {
-    const { register, handleSubmit } = useForm();
-    const onSubmit = data => console.log(data);
+function VehicleInfo({setVehicle, setVehicleType, register}) {
+    const [cars] = useCar();
+    
+    const [vehicleOptions, setVehicleOptions] = useState([]);
+
+    const vehicleTypeOptions = [...new Set(cars.map(car => car.type))];
+    const handleVehicleOptions = (event) => {
+        const type = event.target.value;
+        setVehicleType(type);
+        const filteredVehicleType = cars.filter(car => car.type === type)
+        setVehicleOptions(filteredVehicleType);
+    }
+
+
+    
+
     return (
         <div className="w-full">
             <SectionTitle title='Vehicle Information' />
-            <form onSubmit={handleSubmit(onSubmit)} className="border p-4 rounded-md">
+            <div className="border p-4 rounded-md">
                 <label className="form-control w-full ">
                     <div className="label">
                         <span className="label-text">Vehicle Type<span className="text-red-500">*</span></span>
@@ -16,13 +30,13 @@ function VehicleInfo() {
                     <select
                         defaultValue="default"
                         {...register("vehicle_type", { required: true })}
-                        className="select select-bordered w-full">
+                        className="select select-bordered w-full"
+                        onChange={handleVehicleOptions}
+                        >
                         <option disabled value="default"></option>
-                        <option value="salad">Salad</option>
-                        <option value="pizza">Pizza</option>
-                        <option value="soup">Soup</option>
-                        <option value="dessert">Dessert</option>
-                        <option value="drinks">Drinks</option>
+                        {
+                            vehicleTypeOptions.map((item,idx) => <option key={idx} value={item}>{item}</option>)
+                        }
                     </select>
 
                 </label>
@@ -33,17 +47,17 @@ function VehicleInfo() {
                     <select
                         defaultValue="default"
                         {...register("vehicle", { required: true })}
-                        className="select select-bordered w-full">
+                        className="select select-bordered w-full"
+                        onChange={(event) => setVehicle(event.target.value)}
+                        >
                         <option disabled value="default"></option>
-                        <option value="salad">Salad</option>
-                        <option value="pizza">Pizza</option>
-                        <option value="soup">Soup</option>
-                        <option value="dessert">Dessert</option>
-                        <option value="drinks">Drinks</option>
+                       {
+                        vehicleOptions.map((vehicle, idx) => <option key={idx} value={vehicle.id}>{vehicle.make}</option>)
+                       }
                     </select>
                 </label>
 
-            </form>
+            </div>
 
         </div>
     );

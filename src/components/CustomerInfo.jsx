@@ -1,14 +1,12 @@
 
-import { useForm } from 'react-hook-form';
 import SectionTitle from './shared/SectionTitle';
 
-function CustomerInfo() {
-    const { register, handleSubmit } = useForm();
-    const onSubmit = data => console.log(data);
+function CustomerInfo({register}) {
+    
     return (
         <div className="w-full">
             <SectionTitle title='Customer Information'/>
-            <form onSubmit={handleSubmit(onSubmit)} className="border p-4 rounded-md">
+            <div className="border p-4 rounded-md">
                 <label className="form-control w-full ">
                     <div className="label">
                         <span className="label-text">First Name<span className="text-red-500">*</span></span>
@@ -45,7 +43,7 @@ function CustomerInfo() {
                         type="text"
                         className="input input-bordered w-full " />
                 </label>
-            </form>
+            </div>
 
         </div>
     );
