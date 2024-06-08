@@ -1,6 +1,6 @@
 import logo from '../assets/car-rental.png'
 
-function Invoice() {
+function Invoice({data, carInfo, charges}) {
     return (
         <div className="container mx-auto grid grid-cols-2 gap-2 text-sm border px-4 py-2">
             <div className='space-y-4'>
@@ -33,11 +33,11 @@ function Invoice() {
                 <h3 className='text-xl uppercase'>Additional Authorized Driver(s)</h3>
                 <div>
                     <h3>UNIT DETAILS</h3>
-                    <p>Unit: NISSAN ROGUE BLACK</p>
-                    <p>Make & Model: NISSAN ROUGE BLACK</p>
+                    <p>Unit: {`${carInfo?.make} ${carInfo?.model}`}</p>
+                    <p>Make & Model: {`${carInfo?.make} ${carInfo?.model}`}</p>
                 </div>
                 <div>
-                    <p>BILL TO: </p>
+                    <p>BILL TO: {data?.last_name}</p>
                     <p>Payment Type: Unpaid</p>
                     <p>AUTH: $0.00</p>
                 </div>
@@ -56,11 +56,11 @@ function Invoice() {
 
             <div>
                 <h1 className='font-bold text-2xl'>RESERVATION</h1>
-                <h2 className='font-bold text-xl'>RA#0121</h2>
+                <h2 className='font-bold text-xl'>{data?.reservation_id}</h2>
                 <h4 className='text-xl'>REPAIR ORDER:</h4>
                 <h4 className='text-xl'>CLAIM:</h4>
-                <p>Date/Time Out: 03/29/2024 12:33 AM</p>
-                <p>Date/Time In: 03/29/2024 12:33 AM</p>
+                {/* <p>Date/Time Out: {new Date(data?.pickup_date)}</p>
+                <p>Date/Time In: {new Date(data?.return_date)}</p> */}
                 <div className='bg-slate-200'>
                     <h3 className='font-bold text-2xl'>Charges Summary</h3>
                     <table className="table">
@@ -75,38 +75,14 @@ function Invoice() {
                         </thead>
 
                         <tbody>
-
-                            <tr className="border-b-0">
-                                <td>Weekly</td>
-                                <td>1</td>
-                                <td className="text-end">$0.50</td>
-                                <td className="text-end">$0.50</td>
-                            </tr>
-                            <tr className="border-b-0">
-                                <td>Weekly</td>
-                                <td>1</td>
-                                <td className="text-end">$0.50</td>
-                                <td className="text-end">$0.50</td>
-                            </tr>
-                            <tr className="border-b-0">
-                                <td>Weekly</td>
-                                <td>1</td>
-                                <td className="text-end">$0.50</td>
-                                <td className="text-end">$0.50</td>
-                            </tr>
-                            <tr className="border-b-0">
-                                <td>Weekly</td>
-                                <td>1</td>
-                                <td className="text-end">$0.50</td>
-                                <td className="text-end">$0.50</td>
-                            </tr>
-                            <tr className="border-b-0">
-                                <td>Weekly</td>
-                                <td>1</td>
-                                <td className="text-end">$0.50</td>
-                                <td className="text-end">$0.50</td>
-                            </tr>
-
+                        {
+                            charges?.map(charge => <tr key={charge.id} className="border-b-0">
+                            <td>{charge.title}</td>
+                            <td className="text-center">{charge.unit}</td>
+                            <td className="text-end">${charge.rate}</td>
+                            <td className="text-end">${charge.unit * charge.rate}</td>
+                        </tr>)
+                        }
                         </tbody>
 
                     </table>

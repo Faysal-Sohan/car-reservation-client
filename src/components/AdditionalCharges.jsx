@@ -1,23 +1,19 @@
+
 import SectionTitle from "./shared/SectionTitle";
 
 
-function AdditionalCharges({register}) {
+function AdditionalCharges({ register, additionalCharges }) {
+
     return (
         <div className="w-full">
             <SectionTitle title='Additional Charges' />
             <div className="border p-4 rounded-md">
-                <div className="flex justify-between">
-                    <p className="flex items-center gap-2 justify-center"> <span><input {...register('clw')} type="checkbox" defaultChecked={false} className="checkbox checkbox-xs" /> </span> Collision Damage Waiver</p>
-                    <p>$9.00</p>
-                </div>
-                <div className="flex justify-between">
-                    <p className="flex items-center gap-2 justify-center"> <span><input {...register('li')} type="checkbox" defaultChecked={false} className="checkbox checkbox-xs" /> </span>Liability Insurance</p>
-                    <p>$9.00</p>
-                </div>
-                <div className="flex justify-between">
-                    <p className="flex items-center gap-2 justify-center"> <span><input {...register('rt')} type="checkbox" defaultChecked={false} className="checkbox checkbox-xs" /> </span>Rental Tax</p>
-                    <p>$9.00</p>
-                </div>
+                {
+                    additionalCharges.map((charge, idx) => <div key={idx} className="flex justify-between">
+                        <p className="flex items-center gap-2 justify-center"> <span><input {...register(charge.id)} type="checkbox" defaultChecked={false} className="checkbox checkbox-xs" /> </span>{charge.name}</p>
+                        <p>{charge.id === 'tax' ? `${charge.rate}%`: `$${charge.price}`}</p>
+                    </div>)
+                }
             </div>
         </div>
     );

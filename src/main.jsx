@@ -6,7 +6,6 @@ import {
   QueryClient,
   QueryClientProvider,
 } from '@tanstack/react-query'
-import Invoice from './components/Invoice.jsx'
 
 const queryClient = new QueryClient();
 
